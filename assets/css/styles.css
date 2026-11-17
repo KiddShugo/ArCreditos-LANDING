@@ -168,7 +168,7 @@ h1 { font-size: clamp(44px, 4.6vw + 8px, 84px); }
 .marquee__track span::after { content: ""; width: 8px; height: 8px; background: currentColor; opacity: .5; }
 .marquee:hover .marquee__track { animation-play-state: paused; }
 @keyframes ar-marquee { to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) { .marquee__track { animation: none; flex-wrap: wrap; width: auto; padding-inline: var(--gut); } }
+
 
 /* respuesta al mouse */
 .plazos li { transition: background-color .25s ease, color .25s ease, transform .25s var(--ar-ease); box-shadow: inset 0 0 0 1px var(--p-ink); }
@@ -268,11 +268,7 @@ h1 { font-size: clamp(44px, 4.6vw + 8px, 84px); }
 }
 
 /* cinta de rubros con "reducir movimiento": una línea quieta que se puede deslizar, nunca una lista vertical */
-@media (prefers-reduced-motion: reduce) {
-  .marquee__track { animation: none; flex-wrap: nowrap; width: max-content; padding-inline: var(--gut); }
-  .marquee { overflow-x: auto; scrollbar-width: none; }
-  .marquee::-webkit-scrollbar { display: none; }
-}
+
 @media (max-width: 639px) {
   .closing__cta .btn--xl.btn--wide { width: 100%; max-width: 100%; box-sizing: border-box; font-size: 18px; padding-inline: var(--s-5); letter-spacing: .03em; }
   .footer__legal .sep { display: none; }
@@ -281,3 +277,17 @@ h1 { font-size: clamp(44px, 4.6vw + 8px, 84px); }
 .footer__legal .socials svg { display: block; }
 .footer__legal .socials a { display: inline-flex !important; align-items: center; justify-content: center; padding: 0; }
 .footer__legal .socials a > svg { margin: 0; flex: none; }
+
+/* pausa de la cinta con un toque */
+.marquee { cursor: pointer; }
+.marquee.is-paused .marquee__track { animation-play-state: paused; }
+
+/* versión suave ("reducir movimiento" activado en el teléfono o la compu) */
+/* el sistema base anula toda animación con !important cuando se pide reducir movimiento; acá se
+   devuelven solo estas, suaves */
+.ar-calm .ar-reveal { transform: none !important; transition: opacity .8s ease !important; transition-delay: var(--ar-delay, 0ms) !important; }
+.ar-calm .cal__day { transition: background-color .3s ease, border-color .3s ease, color .3s ease !important; }
+.ar-calm .cal__day.is-new, .ar-calm .cal__day--today { animation: none !important; }
+.ar-calm .plan-progress__bar i { transition: transform .6s ease !important; }
+.ar-calm .marquee__track { animation: ar-marquee 70s linear infinite !important; }
+.ar-calm .marquee.is-paused .marquee__track { animation-play-state: paused !important; }

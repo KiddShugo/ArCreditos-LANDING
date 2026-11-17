@@ -1,13 +1,15 @@
 /* AR Créditos: animaciones propias de la página.
-   Todo se apaga con "reducir movimiento" del sistema operativo. */
+   Con "reducir movimiento" / "quitar animaciones" del teléfono las animaciones siguen, en versión suave:
+   sin rebotes, sin desplazamientos y la cinta más lenta (se pausa con un toque). */
 (function () {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const html = document.documentElement;
-  if (!reduce) html.classList.add('ar-anim');
+  html.classList.add('ar-anim');
+  if (reduce) html.classList.add('ar-calm');
 
   /* 1. El calendario del hero: los días se van pagando de a uno y el plan vuelve a empezar */
   const cal = document.querySelector('[data-ar-cal]');
-  if (cal && !reduce) {
+  if (cal) {
     const days = [...cal.children];
     const bar = document.querySelector('[data-ar-progress]');
     const paidLabel = document.querySelector('[data-ar-paid]');
@@ -43,13 +45,14 @@
 
   /* cinta de rubros: se duplica el contenido para que el loop no tenga corte */
   document.querySelectorAll('.marquee__track').forEach((t) => {
-    if (reduce) return;
     [...t.children].forEach((c) => t.appendChild(c.cloneNode(true)));
+    // un toque (o clic) la pausa y otro la reanuda
+    const band = t.parentElement;
+    band.addEventListener('click', () => band.classList.toggle('is-paused'));
   });
 
   /* 2. Contador: el número cuenta desde 0 una vez, al cargar */
   document.querySelectorAll('[data-ar-count]').forEach((el) => {
-    if (reduce) return;
     const to = +el.dataset.arCount;
     const dur = 1400;
     let t0;
@@ -150,7 +153,7 @@
   }
 
   /* 3. Aparición al entrar en pantalla, una sola vez, en cascada dentro de cada grupo */
-  if (!reduce && 'IntersectionObserver' in window) {
+  if ('IntersectionObserver' in window) {
     const groups = [
       'main > section:not(.hero) .section-head',
       '.cats > .cat',
