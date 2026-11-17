@@ -245,3 +245,39 @@ h1 { font-size: clamp(44px, 4.6vw + 8px, 84px); }
   .nav__actions .btn { letter-spacing: .03em; padding-inline: var(--s-4); font-size: 13px; }
   .nav__logo { font-size: 19px; }
 }
+
+/* ---------------------------------------------------------------- celular (revisión con video del teléfono) */
+@media (max-width: 639px) {
+  /* las secciones miden lo que su contenido, sin pantallas forzadas (dejaban huecos enormes) */
+  main > :is(section, .section):not(.hero), footer.closing { height: auto !important; min-height: 0 !important; }
+  main > :is(section, .section):not(.hero) > .wrap, footer.closing > .wrap { height: auto !important; }
+  footer.closing > .wrap { row-gap: var(--s-8); }
+  #frase { padding-bottom: var(--s-8); }
+
+  /* el calendario del hero entero, sin cortes: el hero crece lo necesario */
+  .hero--split .hero__media.hero__media--ui { flex: none; height: auto; min-height: 0; padding: var(--s-4); }
+  .plan-card { padding: var(--s-4); }
+  .plan-card__head { flex-wrap: wrap; }
+
+  /* pie: nada se sale de la pantalla */
+  .footer .footer__col:last-child { grid-column: 1 / -1; }
+  .closing__links .grid { row-gap: var(--s-6); }
+  .footer__legal { flex-direction: column; align-items: flex-start; gap: var(--s-4); }
+  .footer__legal .nowrap { display: block; margin-top: var(--s-1); }
+  .footer__legal > span { line-height: 1.6; }
+}
+
+/* cinta de rubros con "reducir movimiento": una línea quieta que se puede deslizar, nunca una lista vertical */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track { animation: none; flex-wrap: nowrap; width: max-content; padding-inline: var(--gut); }
+  .marquee { overflow-x: auto; scrollbar-width: none; }
+  .marquee::-webkit-scrollbar { display: none; }
+}
+@media (max-width: 639px) {
+  .closing__cta .btn--xl.btn--wide { width: 100%; max-width: 100%; box-sizing: border-box; font-size: 18px; padding-inline: var(--s-5); letter-spacing: .03em; }
+  .footer__legal .sep { display: none; }
+}
+.footer__legal .socials a { display: inline-grid; place-items: center; }
+.footer__legal .socials svg { display: block; }
+.footer__legal .socials a { display: inline-flex !important; align-items: center; justify-content: center; padding: 0; }
+.footer__legal .socials a > svg { margin: 0; flex: none; }
